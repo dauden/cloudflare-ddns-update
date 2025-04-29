@@ -56,12 +56,13 @@ updateRecord() {
     -H "X-Auth-Key: ${API_KEY}" \
     -d "$PAYLOAD_RECORD"
     )
-  echo "$UPDATE_RESULT"
-  MESSAGE=$(echo "$UPDATE_RESULT" | jq -r '.message')
-  echo "$MESSAGE"
-  if [ "$MESSAGE" == "Request accepted" ]; then
+  if echo "$UPDATE_RESULT" | jq -e '.success == true and (.errors | length == 0)' > /dev/null; then
+      echo "Operation successful"
       echo "$CURRENT_IP" > $LAST_IP_FILE
       exit 0
+  else
+      echo "Operation failed"
+      exit 1
   fi
 }
 
