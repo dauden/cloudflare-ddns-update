@@ -1,0 +1,10 @@
+# Required changed before deploy
+declare API_KEY="your_copied_cloudflare_api_key"
+declare ACCOUNT="your_email"
+declare ZONE_ID="your_domain_zone_id"
+declare RECORD_NAME="your_domain_zone_name"
+
+# Options changed before deploy
+declare HOST="https://api.cloudflare.com"
+declare API_VERSION="/client/v4/zones"
+declare LAST_IP_FILE="/tmp/dns_last_ip_$ZONE_ID"
