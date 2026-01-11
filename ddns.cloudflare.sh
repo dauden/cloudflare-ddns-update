@@ -28,6 +28,7 @@ findRecordsByName() {
 getRecords() {
   RECORDS=$(curl "${HOST}${API_VERSION}/${ZONE_ID}/dns_records" \
     --silent \
+    -H 'Content-Type: application/json' \
     --header "X-Auth-Email: ${ACCOUNT}" \
     --header "X-Auth-Key: ${API_KEY}"
   )
@@ -82,6 +83,20 @@ getRecordId() {
   fi
 }
 
+updateRecordMetadata() {
+    if [ "$LAST_IP" == "" ]; then
+        getLastIp
+    fi
+    if [ "$LAST_IP" == "$CURRENT_IP1" ];
+    then
+      echo "Not updating DNS host ${HOST} for Record ${RECORD_NAME} of Zone Id ${ZONE_ID}: IP address unchanged"
+      exit 0;
+    fi
+    replaceIP $CURRENT_IP
+    getRecordId
+    updateRecord
+}
+
 # Get last known IP address that was stored locally
 if [ -f "$LAST_IP_FILE" ]; then
 	LAST_IP=`head -n 1 $LAST_IP_FILE`
@@ -94,18 +109,10 @@ echo "Current public IP detected is: $CURRENT_IP"
 if [ "$LAST_IP" != "$CURRENT_IP" ];
 then
   getRecords
-  findRecordsByName $RECORD_NAME
-  if [ "$LAST_IP" == "" ]; then
-      getLastIp
-  fi
-  if [ "$LAST_IP" == "$CURRENT_IP" ];
-  then
-    echo "Not updating DNS host ${HOST} for Record ${RECORD_NAME} of Zone Id ${ZONE_ID}: IP address unchanged"
-    exit 0;
-  fi
-  replaceIP $CURRENT_IP
-  getRecordId
-  updateRecord
+  for RECORD_NAME in $RECORD_NAMES; do
+    findRecordsByName $RECORD_NAME
+    updateRecordMetadata
+  done
 else
   echo "Not updating DNS host ${HOST} for Record ${RECORD_NAME} of Zone id ${ZONE_ID}: IP address unchanged"
   exit 0;
