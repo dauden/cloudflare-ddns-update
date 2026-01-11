@@ -58,12 +58,10 @@ updateRecord() {
     -d "$PAYLOAD_RECORD"
     )
   if echo "$UPDATE_RESULT" | jq -e '.success == true and (.errors | length == 0)' > /dev/null; then
-      echo "Operation successful"
+      echo "Operation ${RECORD_NAME} zone successful."
       echo "$CURRENT_IP" > $LAST_IP_FILE
-      exit 0
   else
-      echo "Operation failed"
-      exit 1
+      echo "Operation ${RECORD_NAME} zone failed"
   fi
 }
 
@@ -89,7 +87,7 @@ updateRecordMetadata() {
     fi
     if [ "$LAST_IP" == "$CURRENT_IP" ];
     then
-      echo "Not updating DNS host ${HOST} for Record ${RECORD_NAME} of Zone Id ${ZONE_ID}: IP address unchanged"
+      echo "Not updating DNS host ${HOST} for Record ${DOMAIN} of Zone Id ${ZONE_ID}: IP address unchanged"
       exit 0;
     fi
     replaceIP $CURRENT_IP
@@ -110,10 +108,11 @@ if [ "$LAST_IP" != "$CURRENT_IP" ];
 then
   getRecords
   for RECORD_NAME in $RECORD_NAMES; do
+    echo $RECORD_NAME
     findRecordsByName $RECORD_NAME
     updateRecordMetadata
   done
 else
-  echo "Not updating DNS host ${HOST} for Record ${RECORD_NAME} of Zone id ${ZONE_ID}: IP address unchanged"
+  echo "Not updating DNS host ${HOST} for Domain ${DOMAIN} of Zone id ${ZONE_ID}: IP address unchanged"
   exit 0;
 fi
