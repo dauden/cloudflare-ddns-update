@@ -87,7 +87,7 @@ updateRecordMetadata() {
     if [ "$LAST_IP" == "" ]; then
         getLastIp
     fi
-    if [ "$LAST_IP" == "$CURRENT_IP1" ];
+    if [ "$LAST_IP" == "$CURRENT_IP" ];
     then
       echo "Not updating DNS host ${HOST} for Record ${RECORD_NAME} of Zone Id ${ZONE_ID}: IP address unchanged"
       exit 0;
