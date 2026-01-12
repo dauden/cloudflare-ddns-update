@@ -64,7 +64,7 @@ _Alternatively:_
     - `LAST_IP_FILE`: File path to store the last known IP address.
     - `ZONE_ID`: The Zone ID of domain to update.
     - `API_KEY`: Your personal Cloudflare API key.
-    - `RECORD_NAME`: The DNS record's name (e.g., "@", "www", etc.).
+    - `RECORD_NAMES`: The DNS record's name (e.g., "@", "www", etc.).
 - It uses `curl` for HTTP requests and `jq` for JSON parsing. Both utilities must be installed.
 
 ---
