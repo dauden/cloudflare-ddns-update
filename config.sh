@@ -1,10 +1,11 @@
 # Required changed before deploy
-declare API_KEY="your_copied_cloudflare_api_key"
-declare ACCOUNT="your_email"
-declare ZONE_ID="your_domain_zone_id"
-declare RECORD_NAMES="your_domain_zone_0_name your_domain_zone_1_name"
+declare API_KEY="xxxxxxx"
+declare ACCOUNT="xxxxx@gmail.com"
+declare ZONE_ID="xxxxxxx"
+declare DOMAIN="codingland.com"
+declare RECORD_NAMES="abc, xyz"
 
 # Options changed before deploy
 declare HOST="https://api.cloudflare.com"
 declare API_VERSION="/client/v4/zones"
-declare LAST_IP_FILE="/tmp/dns_last_ip_$ZONE_ID"
+declare LAST_IP_FILE="/tmp/dns_last_ip_$DOMAIN"

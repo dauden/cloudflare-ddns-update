@@ -109,7 +109,7 @@ then
   getRecords
   for RECORD_NAME in $RECORD_NAMES; do
     echo $RECORD_NAME
-    findRecordsByName $RECORD_NAME
+    findRecordsByName "$RECORD_NAME.$DOMAIN"
     updateRecordMetadata
   done
 else
